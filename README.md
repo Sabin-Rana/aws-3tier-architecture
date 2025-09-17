@@ -160,7 +160,7 @@ This project demonstrates the implementation of a highly available, scalable, an
     - Enabled auto-assign public IPv4 addresses for web tier subnets
     - Ensures instances automatically receive public IP addresses
 
-    ![IP Auto-Assign](https://github.com/Sabin-Rana/aws-3tier-architecture/blob/main/Screenshots/AWS_3tier_Step_21.png)
+    ![IP Auto-Assign](https://github.com/Sabin-Rana/aws-3tier-architecture/blob/main/Screenshots/AWS_3Tier_Step_21.png)
 
 22. **Public Subnet Configuration Success**
     - Successfully configured both web tier subnets with public IP auto-assignment
