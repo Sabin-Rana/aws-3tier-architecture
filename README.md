@@ -739,7 +739,7 @@ This project demonstrates the implementation of a highly available, scalable, an
      ![NGINX Config](https://github.com/Sabin-Rana/aws-3tier-architecture/blob/main/Screenshots/AWS_3Tier_Step_113.png)
 
 114. **Application Frontend Testing**
-     - Successfully accessed the deployed 3-tier application through web browser
+     - Accessed the deployed 3-tier application through web browser
      - Confirmed end-to-end functionality with all tiers integrated
 
      ![Frontend Test](https://github.com/Sabin-Rana/aws-3tier-architecture/blob/main/Screenshots/AWS_3Tier_Step_114.png)
