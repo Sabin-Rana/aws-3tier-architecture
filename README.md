@@ -1,7 +1,7 @@
 # AWS 3-Tier Architecture Project
 
 ## Architecture Diagram
-![AWS 3-Tier Architecture](https://github.com/Sabin-Rana/aws-3tier-architecture/tree/main/Architecture_Diagram)
+![AWS 3-Tier Architecture](https://github.com/Sabin-Rana/aws-3tier-architecture/blob/main/Architecture_Diagram/AWS%20_3-Tier_Architecture.png)
 
 ## Overview
 This project demonstrates the implementation of a highly available, scalable, and secure 3-tier architecture on Amazon Web Services (AWS). The architecture consists of a presentation tier (web servers), application tier (app servers), and database tier, all deployed across multiple Availability Zones for high availability and fault tolerance.
@@ -18,7 +18,7 @@ This project demonstrates the implementation of a highly available, scalable, an
 - **Auto Scaling**: Dynamic scaling based on CPU utilization
 - **Load Balancing**: External and Internal Application Load Balancers
 - **Security**: No direct SSH access, using AWS Systems Manager Session Manager
-- **Monitoring**: CloudWatch integration with SNS notifications
+- **Monitoring**: SNS notifications
 - **VPC Flow Logs**: Network traffic monitoring and logging
 - **Infrastructure as Code**: Reproducible architecture setup
 
@@ -848,6 +848,8 @@ sudo systemctl enable amazon-ssm-agent
 * **Network Efficiency:** Placed resources in same AZ where possible  
 * **Resource Tagging:** All resources tagged for cost tracking and management  
 
+
+
 ## Estimated Monthly Costs
 * EC2 Instances (t2.micro): **$51-85/month** (2-4 instances per tier)  
 * RDS Aurora MySQL: **~$45-60/month**  
@@ -867,8 +869,7 @@ sudo systemctl enable amazon-ssm-agent
   * API calls routed through **Internal Load Balancer to Node.js**  
   * Database queries handled by **Aurora MySQL cluster**  
 
-## Monitoring and Maintenance
-* **CloudWatch Dashboards:** Monitor CPU, memory, and network metrics  
+## Monitoring and Maintenance 
 * **SNS Notifications:** Receive alerts for scaling events  
 * **VPC Flow Logs:** Analyze network traffic patterns  
 * **Session Manager:** Secure access to instances for maintenance  
@@ -877,6 +878,38 @@ sudo systemctl enable amazon-ssm-agent
 * **Auto Scaling:** Automatic scaling based on CPU utilization  
 * **Manual Scaling:** Adjust ASG capacity as needed  
 * **Database Scaling:** Add read replicas for read-heavy workloads  
+
+## Future Enhancements
+
+### Monitoring and Observability
+* **CloudWatch Dashboards** - Custom metrics visualization for all tiers
+* **CloudWatch Alarms** - Automated alerts for CPU, memory, and application metrics
+* **Application Insights** - Detailed performance monitoring and troubleshooting
+* **Log Analytics** - Centralized logging with CloudWatch Logs
+
+### DNS and Domain Management
+* **Route 53 Hosted Zone** - Custom domain configuration
+* **Health Checks** - DNS-level health monitoring
+* **Failover Routing** - Automated DNS failover policies
+* **SSL/TLS Certificates** - AWS Certificate Manager integration
+
+### Advanced Security
+* **AWS WAF** - Web Application Firewall for external load balancer
+* **AWS Config** - Resource configuration compliance monitoring
+* **GuardDuty** - Threat detection and security monitoring
+* **Secrets Manager** - Secure credential management
+
+### Performance and Scalability
+* **CloudFront CDN** - Global content delivery network
+* **ElastiCache** - In-memory caching for application performance
+* **RDS Read Replicas** - Database read scaling
+* **Container Migration** - ECS/EKS implementation
+
+### DevOps and Automation
+* **CI/CD Pipeline** - CodePipeline for automated deployments
+* **Infrastructure as Code** - CloudFormation or Terraform templates
+* **Blue/Green Deployments** - Zero-downtime deployment strategy
+* **Automated Testing** - Integration and performance testing
 
 # Support and Resources
 * **AWS Documentation:** [3-Tier Architecture on AWS](https://docs.aws.amazon.com/whitepapers/latest/aws-overview/architecting-for-the-cloud.html)  
