@@ -587,7 +587,18 @@ This project demonstrates the implementation of a highly available, scalable, an
 
 90. **App Server Target Group Configuration**
     - Created `App-Server-TG` target group with port 4000 configuration
-    - Configured health check settings and proper VPC association
+    - **Important Note:**  
+    - **Critical:** If health check options are not properly selected or configured, targets will always show as "Unhealthy" regardless of the actual application status. The load balancer requires explicit health check validation to mark targets as healthy.
+
+   - **Recommended Action Plan**
+
+- Navigate to Target Group settings in AWS Console
+- Edit health check configuration with the parameters above
+- Wait 2-3 health check intervals for status to update
+- Monitor the target health status in the dashboard
+- Verify application logs for any health check request errors
+
+- Once properly configured, healthy targets should show ✅ "Healthy" status in the dashboard.
 
     ![Target Group Config](https://github.com/Sabin-Rana/aws-3tier-architecture/blob/main/Screenshots/AWS_3Tier_Step_90.png)
 
