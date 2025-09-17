@@ -20,7 +20,6 @@ This project demonstrates the implementation of a highly available, scalable, an
 - **Security**: No direct SSH access, using AWS Systems Manager Session Manager
 - **Monitoring**: SNS notifications
 - **VPC Flow Logs**: Network traffic monitoring and logging
-- **Infrastructure as Code**: Reproducible architecture setup
 
 ## Prerequisites
 - AWS Account with appropriate permissions
