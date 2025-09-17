@@ -587,7 +587,7 @@ This project demonstrates the implementation of a highly available, scalable, an
 
 90. **App Server Target Group Configuration**
     - Created `App-Server-TG` target group with port 4000 configuration
-    - Configured health check settings and proper VPC association to  this Important 
+    - Configured proper VPC association
     - **Important Note:**  
     - **Critical:** If health check options are not properly selected or configured, targets will always show as "Unhealthy" regardless of the actual application status. The load balancer requires explicit health check validation to mark targets as healthy.
 
