@@ -1,7 +1,7 @@
 # AWS 3-Tier Architecture Project
 
 ## Architecture Diagram
-![AWS 3-Tier Architecture](https://github.com/Sabin-Rana/aws-3tier-architecture/blob/main/Architecture_Diagram/AWS_3-Tier_Architecture.png)
+![AWS 3-Tier Architecture](https://github.com/Sabin-Rana/aws-3tier-architecture/tree/main/Architecture_Diagram)
 
 ## Overview
 This project demonstrates the implementation of a highly available, scalable, and secure 3-tier architecture on Amazon Web Services (AWS). The architecture consists of a presentation tier (web servers), application tier (app servers), and database tier, all deployed across multiple Availability Zones for high availability and fault tolerance.
