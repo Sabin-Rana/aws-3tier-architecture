@@ -912,10 +912,17 @@ sudo systemctl enable amazon-ssm-agent
 * **Automated Testing** - Integration and performance testing
 
 # Support and Resources
-* **AWS Documentation:** [3-Tier Architecture on AWS](https://docs.aws.amazon.com/whitepapers/latest/aws-overview/architecting-for-the-cloud.html)  
-* **Web Server Setup:** [AWS EC2 NGINX + Node.js Guide](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-lamp-amazon-linux-2.html)  
-* **Security Guidelines:** [AWS Well-Architected Security Pillar](https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html)  
-* **Monitoring Best Practices:** [Amazon CloudWatch Documentation](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html)  
+
+## References and Inspiration
+This project was developed with reference to AWS official documentation and sample implementations:
+
+* **[AWS Three-Tier Web Architecture Workshop](https://github.com/aws-samples/aws-three-tier-web-architecture-workshop)** - Reference architecture and implementation patterns
+* **[AWS Well-Architected Framework](https://aws.amazon.com/architecture/well-architected/)** - Best practices for cloud architecture
+* **[AWS Documentation](https://docs.aws.amazon.com/)** - Official service documentation and guides
+
+### Additional Learning Resources
+* [AWS Training and Certification](https://aws.amazon.com/training/)
+* [AWS Architecture Center](https://aws.amazon.com/architecture/)  
 
 # Project Status
 * **Architecture Validation:** Multi-AZ 3-Tier Implementation Verified  
