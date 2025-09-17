@@ -1,5 +1,8 @@
 # AWS 3-Tier Architecture Project
 
+## Architecture Diagram
+![AWS 3-Tier Architecture](https://github.com/Sabin-Rana/aws-3tier-architecture/blob/main/Architecture_Diagram/AWS_3-Tier_Architecture.png)
+
 ## Overview
 This project demonstrates the implementation of a highly available, scalable, and secure 3-tier architecture on Amazon Web Services (AWS). The architecture consists of a presentation tier (web servers), application tier (app servers), and database tier, all deployed across multiple Availability Zones for high availability and fault tolerance.
 
@@ -752,9 +755,137 @@ This project demonstrates the implementation of a highly available, scalable, an
 ### NGINX Configuration and Internal Load Balancer Integration
 After creating the Internal Load Balancer, a critical step was performed to update the NGINX configuration file. The DNS name from `2-Internal-Load-Balancer` was copied and updated in the `nginx.conf` file at line 58. This file was then re-uploaded to the S3 bucket `mys3bucket025`, replacing the old configuration.
 
-**Configuration Details:**
-```nginx
-# nginx.conf line 58 update
-upstream backend {
-    server <2-Internal-Load-Balancer-DNS-Name>;
-}
+# Web Tier Auto Scaling Implementation
+
+For complete web tier automation, the following components were implemented:
+
+
+## Web Server AMI Creation
+* Created AMI from **TEST-WEB-SERVER** after successful configuration  
+* Included all NGINX configurations and React build  
+* Tagged appropriately for identification  
+
+## Web Tier Launch Template
+* Used **Web-Server-Image AMI**  
+* Configured with **2.Web-Tier-SG** security group  
+* Included IAM instance profile for **S3** and **SSM** access  
+* Set proper instance type and configuration  
+
+## External Load Balancer
+* Internet-facing **Application Load Balancer**  
+* Associated with public subnets (**WEB-TIER-SUBNET-1 and 2**)  
+* Used **1.External-Load-Balancer-SG** security group  
+* Configured with **Web-Server target group**  
+
+# Security Enhancements
+During testing phase, the **2.Web-Tier-SG** security group was temporarily modified to allow HTTP traffic from a specific IP address for testing purposes. This was done to verify frontend application functionality before implementing the complete load balancer setup.
+
+## Security Group Rule Added
+* Type: HTTP  
+* Port: 80  
+* Source: My IP (temporary for testing)  
+* Purpose: Direct access testing before load balancer implementation  
+
+**Important Security Note:** This temporary rule was removed once the External Load Balancer was properly configured and testing was complete. The final configuration only allows traffic from the External Load Balancer security group.  
+
+# Troubleshooting Report: Real-World Implementation Challenges
+
+## Challenge 1: IAM Role Not Appearing in EC2 Instance Profile Dropdown
+* **Issue:** The IAM role `abcd-ec2-s3-ssm-role-025-9-14` was not appearing in the EC2 instance profile dropdown menu.  
+* **Root Cause:** EC2 instances require an instance profile, which serves as a container for the IAM role.  
+
+**Resolution Steps:**
+```bash
+# Create Instance Profile
+aws iam create-instance-profile --instance-profile-name abcd-ec2-s3-ssm-profile
+
+# Attach Role to Instance Profile
+aws iam add-role-to-instance-profile \
+  --instance-profile-name abcd-ec2-s3-ssm-profile \
+  --role-name abcd-ec2-s3-ssm-role-025-9-14
+
+# Verify Configuration
+aws iam get-instance-profile --instance-profile-name abcd-ec2-s3-ssm-profile
+```
+* **Outcome:** ✅ The instance profile appeared in the EC2 dropdown menu, enabling successful IAM role attachment.  
+
+---
+
+## Challenge 2: EC2 Instances Not Registering with Systems Manager
+* **Issue:** EC2 instances were not appearing as Online in AWS Systems Manager despite correct IAM role.  
+* **Root Cause:** Multi-faceted issue involving SSM Agent configuration, network connectivity, and service registration timing.  
+
+**Resolution Steps:**
+* IAM Role Verification: Confirmed required policies were attached  
+* SSM Agent Status Check:
+```bash
+sudo systemctl status amazon-ssm-agent
+sudo systemctl start amazon-ssm-agent
+sudo systemctl enable amazon-ssm-agent
+```
+* Network Connectivity Validation: Verified private subnet instances could reach SSM endpoints  
+* Instance Profile Verification: Confirmed IAM role attachment from instance metadata  
+* SSM Agent Logs Analysis: Examined agent logs for registration issues  
+
+* **Outcome:** ✅ Instances registered successfully with Systems Manager within 5 minutes after network configuration validation and SSM agent restart.  
+
+---
+
+## Challenge 3: Public IP Website Timeout Issues
+* **Issue:** Accessing web application via public IP address returned connection timeout errors.  
+* **Root Cause:** Network Access Control Lists (NACLs) were configured with default deny rules, blocking HTTP traffic.  
+
+**Resolution:**
+* Updated NACL inbound rules to explicitly allow HTTP/HTTPS traffic  
+
+* **Outcome:** ✅ Web application became accessible via public IP after NACL configuration correction.  
+
+# Cost Management and Billing Awareness
+
+## Cost Optimization Strategies Implemented
+* **Resource Right-Sizing:** Utilized t2.micro instances appropriate for workload  
+* **Storage Optimization:** Configured appropriate EBS volume sizes  
+* **Network Efficiency:** Placed resources in same AZ where possible  
+* **Resource Tagging:** All resources tagged for cost tracking and management  
+
+## Estimated Monthly Costs
+* EC2 Instances (t2.micro): **$51-85/month** (2-4 instances per tier)  
+* RDS Aurora MySQL: **~$45-60/month**  
+* Load Balancers: **~$44/month** (internal + external)  
+* NAT Gateway: **~$45/month per gateway**  
+* Data Transfer: Variable based on usage  
+* S3 Storage: **<$1/month** for application code  
+
+**Estimated Total:** **$150-250/month** for development environment  
+
+# Usage Instructions
+
+## Accessing the Application
+* Navigate to the **External Load Balancer DNS name**  
+* Application automatically routes through all tiers:  
+  * Frontend served by **NGINX from React build**  
+  * API calls routed through **Internal Load Balancer to Node.js**  
+  * Database queries handled by **Aurora MySQL cluster**  
+
+## Monitoring and Maintenance
+* **CloudWatch Dashboards:** Monitor CPU, memory, and network metrics  
+* **SNS Notifications:** Receive alerts for scaling events  
+* **VPC Flow Logs:** Analyze network traffic patterns  
+* **Session Manager:** Secure access to instances for maintenance  
+
+## Scaling Operations
+* **Auto Scaling:** Automatic scaling based on CPU utilization  
+* **Manual Scaling:** Adjust ASG capacity as needed  
+* **Database Scaling:** Add read replicas for read-heavy workloads  
+
+# Support and Resources
+* **AWS Documentation:** [3-Tier Architecture on AWS](https://docs.aws.amazon.com/whitepapers/latest/aws-overview/architecting-for-the-cloud.html)  
+* **Web Server Setup:** [AWS EC2 NGINX + Node.js Guide](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-lamp-amazon-linux-2.html)  
+* **Security Guidelines:** [AWS Well-Architected Security Pillar](https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html)  
+* **Monitoring Best Practices:** [Amazon CloudWatch Documentation](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html)  
+
+# Project Status
+* **Architecture Validation:** ✅ Multi-AZ 3-Tier Implementation Verified  
+* **Security Review:** ✅ Completed  
+* **Documentation:** ✅ Comprehensive Implementation Guide  
+* **Production Ready:** ✅  
